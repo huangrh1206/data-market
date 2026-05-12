@@ -1,0 +1,7 @@
+# Local full-text extracts generated from papers.
+research-notes/*.txt
+
+# Local benchmark/runtime outputs.
+results/*.html
+results/*.json
+storage/objects-test/
