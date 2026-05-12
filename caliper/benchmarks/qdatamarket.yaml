@@ -1,0 +1,38 @@
+test:
+  name: qdatamarket
+  description: Q-DataMarket Fabric benchmark
+  workers:
+    number: 4
+  rounds:
+    - label: register-product
+      txDuration: 60
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 50
+      workload:
+        module: ../workloads/registerProduct.js
+    - label: create-order
+      txDuration: 60
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 100
+      workload:
+        module: ../workloads/createOrder.js
+    - label: confirm-delivery
+      txDuration: 60
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 100
+      workload:
+        module: ../workloads/confirmDelivery.js
+    - label: dispute
+      txDuration: 60
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 20
+      workload:
+        module: ../workloads/dispute.js
