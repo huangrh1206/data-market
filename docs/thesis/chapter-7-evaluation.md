@@ -47,7 +47,7 @@ CPU 使用率
 
 ### 7.3.1 实验设置
 
-本实验使用 Caliper 分别压测 `RegisterProduct`、`CreateOrder`、`IssueAccessToken`、`ConfirmDelivery`、`SubmitRating`、`OpenDispute` 和 `ResolveDispute` 等交易。并发用户数设置为 50、100、200 和 500。
+本实验的 Caliper workload 覆盖 `RegisterProduct`、`CreateOrder`、`ConfirmDelivery` 和 `OpenDispute` 四类链上交易，用于评估产品发布、订单创建、交付确认和争议开启等核心状态写入过程。`IssueAccessToken`、`SubmitRating` 和 `ResolveDispute` 通过链码测试和机制规则汇总验证。并发用户数设置为 50、100、200 和 500。
 
 ### 7.3.2 实验结果
 
