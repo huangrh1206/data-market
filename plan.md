@@ -1,85 +1,80 @@
-# Q-DataMarket 论文与系统实施计划
+# Q-DataMarket 论文数学化加固执行计划
 
-> 论文题目：基于区块链的质量驱动型 IoT 数据访问权交易系统研究与实现
->
-> 规则：每完成一个 Step，必须把本文件中对应的 `- [ ]` 改成 `- [x]`。
+> 执行规则：每完成一个步骤，将对应 `- [ ]` 改为 `- [x]`，并在相关章节中落地可审稿的定义、公式、约束或验证说明。
 
-## 已完成规划阶段
+## 目标
 
-- [x] Step 1: 探索当前项目上下文、本地文献目录、开源项目清单与可行方案约束。
-- [x] Step 2: 从本地论文中挖掘研究空白和可落地创新点。
-- [x] Step 3: 围绕开源项目与可行方案评估实现路线。
-- [x] Step 4: 进行头脑风暴，提出 2-3 个论文方向并向用户确认。
-- [x] Step 5: 根据用户选择细化论文设计方案，确认通用 IoT 批次数据访问权交易、质量驱动机制、押金仲裁机制和 Fabric/Caliper 性能评估路线。
-- [x] Step 6: 写出设计规格与可执行实施计划。
+在没有学校专用格式要求的前提下，先采用通用工科硕士论文模板，同时补强第 2、3、4、5 章的数学原理、形式化模型和具体机制，使论文能够回答审稿专家常见质疑：
 
-## 设计文档
+1. 研究对象是否定义清楚，为什么是访问权而不是所有权。
+2. 系统模型、参与方、状态变量和约束是否形式化。
+3. 质量评分、排序、信誉和价格机制是否有明确公式。
+4. 押金仲裁是否满足个体理性、激励相容和可审计性。
+5. 实验口径是否与原型实现一致，是否避免夸大。
 
-- 设计规格：`docs/superpowers/specs/2026-05-12-q-datamarket-design.md`
-- 详细实施计划：`docs/superpowers/plans/2026-05-12-q-datamarket.md`
-- 文献创新点笔记：`research-notes/innovation-points.md`
-- 开源项目可行性笔记：`research-notes/open-source-feasibility.md`
+## 通用论文模板约定
 
-## 后续执行阶段
+- 题目、摘要、关键词、目录、正文、参考文献、致谢、附录按通用硕士论文结构组织。
+- 正文章节继续使用 `docs/thesis/chapter-*.md`。
+- 公式使用 Markdown + LaTeX 记法，例如 `$$Q_i=...$$`。
+- 每个核心机制章节至少包含“定义/变量/公式/约束/例子或证明思路”。
+- 未经真实实验支撑的内容只写为原型、规则验证或未来扩展，不写成生产网络实测。
 
-### Task 1: 论文设计文档
+## Task 1: 第 2 章相关工作补强
 
-- [x] Step 1.1: 创建 `docs/thesis/outline.md`，写出 8 章论文结构和每章写作目标。
-- [x] Step 1.2: 创建 `docs/thesis/innovation.md`，写出 4 个学术创新点。
-- [x] Step 1.3: 创建 `docs/thesis/experiment-design.md`，写出 3 组实验设计、变量和指标。
-- [x] Step 1.4: 检查论文设计文档是否覆盖系统架构、质量机制、仲裁机制和性能评估。
+- [x] Step 1.1: 在第 2 章增加“2.7 形式化比较与研究问题归纳”，把访问权交易、质量机制、押金仲裁和可复现实验抽象为四个研究问题。
+- [x] Step 1.2: 给出研究对象定义：IoT 批次数据、访问权、链上承诺、链下对象、质量信号、争议证据。
+- [x] Step 1.3: 将原“现有研究不足”后移为 2.8，并把不足写成与本文机制一一对应的缺口。
+- [x] Step 1.4: 更新本章小结编号为 2.9。
 
-### Task 2: IoT 批次数据与质量评分模块
+## Task 2: 第 3 章系统模型补强
 
-- [x] Step 2.1: 创建 `quality/score.test.js`，先写质量评分测试。
-- [x] Step 2.2: 运行 `node --test quality/score.test.js`，确认测试因实现缺失而失败。
-- [x] Step 2.3: 创建 `quality/score.js`，实现完整性、一致性、异常率、时效性、买家评分和争议惩罚计算。
-- [x] Step 2.4: 再次运行 `node --test quality/score.test.js`，确认测试通过。
-- [x] Step 2.5: 创建 `data/generator/generate_iot_batches.js`，生成高、中、低质量 IoT CSV 批次数据。
-- [x] Step 2.6: 运行数据生成脚本，确认 `data/samples/` 下生成 30 个样例文件。
+- [x] Step 2.1: 增加“3.4 形式化系统模型”，定义参与方集合、数据产品集合、订单集合和链上状态。
+- [x] Step 2.2: 增加访问权交易的数学定义：产品 `p_i`、买家 `b_j`、访问凭证 `a_ij`、有效期 `tau_ij`。
+- [x] Step 2.3: 增加安全目标和不变量：完整性、授权不可伪造、状态单调流转、押金守恒、证据可追踪。
+- [x] Step 2.4: 调整原有章节编号，保持数据模型、接口和流程编号连续。
 
-### Task 3: Fabric 链码原型
+## Task 3: 第 4 章质量机制补强
 
-- [x] Step 3.1: 创建 `fabric/chaincode/qdatamarket/test/contract.test.js`，覆盖数据发布、下单、授权、确认、评价和仲裁。
-- [x] Step 3.2: 运行链码测试，确认测试因实现缺失而失败。
-- [x] Step 3.3: 创建链码 `package.json` 和入口文件。
-- [x] Step 3.4: 实现 `RegisterProduct()`、`ReadProduct()`、`CreateOrder()`、`ReadOrder()`。
-- [x] Step 3.5: 实现 `SellerAcceptOrder()`、`IssueAccessToken()`、`ConfirmDelivery()`、`SubmitRating()`。
-- [x] Step 3.6: 实现 `OpenDispute()` 和 `ResolveDispute()`。
-- [x] Step 3.7: 再次运行链码测试，确认测试通过。
+- [x] Step 3.1: 增加符号表，定义记录集合、字段集合、时间序列、异常集合和评分参数。
+- [x] Step 3.2: 将完整性、一致性、异常率、时效性、买家评分、争议惩罚分别写成公式。
+- [x] Step 3.3: 补充质量评分目标函数和权重合理性说明，并给出归一化边界。
+- [x] Step 3.4: 补充卖家信誉递推公式、排序函数和推荐价格函数。
+- [x] Step 3.5: 给出机制性质：单调性、惩罚敏感性、可解释性和可复现性。
 
-### Task 4: Node.js API 与链下存储适配
+## Task 4: 第 5 章押金仲裁机制补强
 
-- [x] Step 4.1: 创建 `fabric/application/test/storage.test.js`，覆盖对象保存和哈希计算。
-- [x] Step 4.2: 运行 API 测试，确认测试因实现缺失而失败。
-- [x] Step 4.3: 创建 `fabric/application/src/hash.js`，实现 SHA-256 文件、文本和 Buffer 哈希。
-- [x] Step 4.4: 创建 `fabric/application/src/storage.js`，实现本地对象存储适配器。
-- [x] Step 4.5: 创建 `fabric/application/src/app.js`，实现健康检查、产品发布和订单创建 API 骨架。
-- [x] Step 4.6: 再次运行 API 测试，确认测试通过。
+- [x] Step 4.1: 增加交易收益模型，定义价格、买方押金、卖方押金、作恶收益和作恶成本。
+- [x] Step 4.2: 给出个体理性约束：正常交易中买卖双方期望收益非负。
+- [x] Step 4.3: 给出激励相容约束：当押金大于潜在作恶收益时，诚实策略占优。
+- [x] Step 4.4: 用状态转移表明确每个状态、触发函数、前置条件和后置状态。
+- [x] Step 4.5: 给出四类异常场景的裁决矩阵：哈希不一致、超时不确认、虚假争议、凭证过期访问。
+- [x] Step 4.6: 补充安全性论证：完整性、不可抵赖、有限责任、可审计性。
 
-### Task 5: Caliper 性能评估配置
+## Task 5: 通用模板与验证
 
-- [x] Step 5.1: 创建 `caliper/benchmarks/qdatamarket.yaml`，定义发布、下单、确认和争议测试轮次。
-- [x] Step 5.2: 创建 `caliper/workloads/registerProduct.js`。
-- [x] Step 5.3: 创建 `caliper/workloads/createOrder.js`。
-- [x] Step 5.4: 创建 `caliper/workloads/confirmDelivery.js`。
-- [x] Step 5.5: 创建 `caliper/workloads/dispute.js`。
-- [x] Step 5.6: 检查 Caliper 配置和 workload 文件完整性。
-
-### Task 6: 实验结果模板与论文初稿
-
-- [x] Step 6.1: 创建 `results/README.md`，准备基础性能、质量机制和仲裁机制结果表。
-- [x] Step 6.2: 创建 `docs/thesis/chapter-1-introduction.md`，完成绪论初稿。
-- [x] Step 6.3: 创建 `docs/thesis/chapter-3-design.md`，完成系统设计章节初稿。
-- [x] Step 6.4: 创建 `docs/thesis/chapter-7-evaluation.md`，完成实验章节模板。
-- [x] Step 6.5: 检查论文初稿是否与系统实现、实验指标和创新点一致。
+- [x] Step 5.1: 创建 `docs/thesis/template.md`，写入通用论文结构、图表编号、公式编号、参考文献和附录建议。
+- [x] Step 5.2: 扫描核心章节，确保第 2、3、4、5 章均包含数学化内容且没有占位符。
+- [x] Step 5.3: 运行质量、评估、链码和应用层测试，确认文档修改不影响现有实现验证。
+- [x] Step 5.4: 提交变更，提交信息使用 `docs: strengthen thesis formal models`。
 
 ## 验证命令
 
 ```powershell
-node --test quality/score.test.js
-cd fabric/chaincode/qdatamarket; npm test
-cd fabric/application; npm test
-Get-ChildItem -Recurse caliper
-rg -n "TBD|TODO|implement later|fill in details" .
+$patterns = @("TB"+"D", "TO"+"DO", "implement later", "fill in details")
+foreach ($p in $patterns) { rg -n $p docs/thesis plan.md }
+rg -n "\\$\\$|定义|约束|不变量|目标函数|状态转移|激励相容|个体理性" docs/thesis/chapter-2-related-work.md docs/thesis/chapter-3-design.md docs/thesis/chapter-4-quality-mechanism.md docs/thesis/chapter-5-arbitration.md
+node --test quality\score.test.js results\evaluation_metrics.test.js
+```
+
+在 `fabric/chaincode/qdatamarket` 目录运行：
+
+```powershell
+npm.cmd test
+```
+
+在 `fabric/application` 目录运行：
+
+```powershell
+npm.cmd test
 ```
