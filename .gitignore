@@ -5,3 +5,6 @@ research-notes/*.txt
 results/*.html
 results/*.json
 storage/objects-test/
+
+# Local implementation worktrees.
+.worktrees/
